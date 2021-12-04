@@ -30,46 +30,28 @@ void pid_reset(struct pid_controller *pid)
  */
 float pid_calculate(struct pid_controller *pid, float error, float dt)
 {
-    if (error != error) error = pid->prev_error;
-    pid->integral += error * dt;
-    if (pid->integral != pid->integral || pid->prev_error != pid->prev_error)
+    /* u(t) = Kp(e(t) + (1/Ti)*int e(t)dt + Td*de(t)/dt */
+
+    /* Reset integral if NaN */
+    if (pid->integral != pid->integral)
     {
         pid_reset(pid);
     }
 
-    float integral_term = pid->ti * pid->integral;
-    float derivative_term = pid->td * ((error - pid->prev_error) / dt);
-    pid->prev_error = pid->td * ((error - pid->prev_error) / dt);
-    float proportional_term = pid->kp * error;
+	/* calculate integral term */
+	pid->integral += error * dt;
 
-    std::cout << error << " " << proportional_term << " " << integral_term << " " << derivative_term << std::endl;
+    float integral_term = 0;
+    if (pid->ti != 0)
+    {
+	    integral_term = (1.0f / pid->ti) * pid->integral;
+    }
 
-    float output = proportional_term + integral_term - derivative_term;
-    std::cout << output << std::endl;
+	/* calculate the derivative term */
+	float derivative_term = pid->td * ((error - pid->prev_error) / dt);
+	pid->prev_error = error;
+
+	/* add proportional term and scale entire output */
+	float output = pid->kp * (error + integral_term - derivative_term);
     return output;
-    // /* u(t) = Kp(e(t) + (1/Ti)*int e(t)dt + Td*de(t)/dt */
-
-    // /* Reset integral if NaN */
-    // if (pid->integral != pid->integral)
-    // {
-    //     pid_reset(pid);
-    // }
-
-	// /* calculate integral term */
-	// pid->integral += error * dt;
-
-    // float integral_term = 0;
-    // if (pid->ti != 0)
-    // {
-	//     integral_term = (1.0f / pid->ti) * pid->integral;
-    // }
-
-	// /* calculate the derivative term */
-	// float derivative_term = pid->td * ((error - pid->prev_error) / dt);
-    // std::cout << derivative_term << std::endl;
-	// pid->prev_error = error;
-
-	// /* add proportional term and scale entire output */
-	// float output = pid->kp * (error + integral_term - derivative_term);
-    // return output;
 }

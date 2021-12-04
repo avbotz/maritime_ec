@@ -21,9 +21,9 @@
 
 void att_controller_init(struct att_controller *ctrl)
 {
-	pid_set_gains(&ctrl->pid[0], 3.1, 0.0, 0.0);
-	pid_set_gains(&ctrl->pid[1], 3.1, 0.0, 0.0);
-	pid_set_gains(&ctrl->pid[2], 3.1, 0.0, 0.0);
+	pid_set_gains(&ctrl->pid[0], 0.2, 0.0, 0.0);
+	pid_set_gains(&ctrl->pid[1], 0.2, 0.0, 0.0);
+	pid_set_gains(&ctrl->pid[2], 0.2, 0.0, 0.0);
 }
 
 void att_controller_update_sp(struct att_controller *ctrl, struct mec_vehicle_attitude *att_sp)
