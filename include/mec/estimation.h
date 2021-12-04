@@ -9,6 +9,12 @@ struct mec_vehicle_position {
 	float down;
 };
 
+struct mec_vehicle_velocity {
+	float north_m_s;
+	float east_m_s;
+	float down_m_s;
+};
+
 struct mec_vehicle_dvl_data {
 	float north_m_s;
 	float east_m_s;

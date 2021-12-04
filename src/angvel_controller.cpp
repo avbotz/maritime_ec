@@ -4,17 +4,18 @@
  * Implements a PID controller to correct error in vehicle angular rate
  * The outputs of this controller (torque setpoints) are fed through the mixer
  *
- * @author Kalyan Sriram
+ * @author Kalyan Sriram, Vincent Wang
  */
 
+#include <iostream>
 #include <mec/control.h>
 #include <mec/pid_controller.h>
 
 void angvel_controller_init(struct angvel_controller *ctrl)
 {
-	pid_set_gains(&ctrl->pid[0], 0.1, 0.0, 0.0);
-	pid_set_gains(&ctrl->pid[0], 0.1, 0.0, 0.0);
-	pid_set_gains(&ctrl->pid[0], 0.1, 0.0, 0.0);
+	pid_set_gains(&ctrl->pid[0], 5.4, 0, 0.000);
+	pid_set_gains(&ctrl->pid[1], 5.4, 0, 0.000);
+	pid_set_gains(&ctrl->pid[2], 5.4, 0, 0.000);
 }
 
 void angvel_controller_update_sp(struct angvel_controller *ctrl,

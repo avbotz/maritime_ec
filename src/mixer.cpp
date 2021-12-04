@@ -1,7 +1,7 @@
 /*
  * mixer.cpp
  *
- * Implements motor mixing functionality for maritime control 
+ * Implements motor mixing functionality for maritime control
  *
  * Essentially, the mixer takes force and torque setpoints from the velocity
  * and angular velocity controller and outputs motor thrust setpoints
@@ -10,7 +10,7 @@
  */
 
 #include <matrix/math.hpp>
-
+#include <iostream>
 #include "mec/control.h"
 
 #define NUM_DOF 6
