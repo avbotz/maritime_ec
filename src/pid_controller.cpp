@@ -9,6 +9,7 @@
 
 #include <iostream>
 #include <mec/pid_controller.h>
+#include <mec/util.h>
 
 void pid_set_gains(struct pid_controller *pid, float kp, float ti, float td)
 {
@@ -52,6 +53,7 @@ float pid_calculate(struct pid_controller *pid, float error, float dt)
 	pid->prev_error = error;
 
 	/* add proportional term and scale entire output */
-	float output = pid->kp * (error + integral_term - derivative_term);
+	float output = normalize(pid->kp * (error + integral_term - derivative_term), -1, 1);
+
     return output;
 }

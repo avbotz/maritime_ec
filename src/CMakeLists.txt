@@ -1,5 +1,6 @@
 add_library(maritime_ec
 	mixer.cpp
+	util.cpp
 	estimation.cpp
 	pid_controller.cpp
 	att_controller.cpp
