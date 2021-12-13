@@ -21,9 +21,9 @@
 
 void position_controller_init(struct position_controller *ctrl)
 {
-	pid_set_gains(&ctrl->pid[0], 0.4, 0.0, 0.0);
-	pid_set_gains(&ctrl->pid[1], 0.4, 0.0, 0.0);
-	pid_set_gains(&ctrl->pid[2], 0.4, 0.0, 0.0);
+	pid_set_gains(&ctrl->pid[0], 1.8, 0.0, 0.0);
+	pid_set_gains(&ctrl->pid[1], 1.8, 0.0, 0.0);
+	pid_set_gains(&ctrl->pid[2], 1.8, 0.0, 0.0);
 }
 
 void position_controller_update_sp(struct position_controller *ctrl, struct mec_vehicle_position *pos_sp)
