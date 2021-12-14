@@ -16,7 +16,7 @@ void velocity_controller_init(struct velocity_controller *ctrl)
 {
 	pid_set_gains(&ctrl->pid[0], 5.2, 0.9, 0.004);
 	pid_set_gains(&ctrl->pid[1], 5.2, 0.9, 0.004);
-	pid_set_gains(&ctrl->pid[2], 1.2, 0.9, 0.004);
+	pid_set_gains(&ctrl->pid[2], 5.2, 0.9, 0.004);
 }
 
 void velocity_controller_update_sp(struct velocity_controller *ctrl,
