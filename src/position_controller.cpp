@@ -31,6 +31,7 @@ void position_controller_update_sp(struct position_controller *ctrl, struct mec_
 	ctrl->position_sp.north = pos_sp->north;
 	ctrl->position_sp.east = pos_sp->east;
 	ctrl->position_sp.down = pos_sp->down;
+	ctrl->position_sp.depth = pos_sp->depth;
 }
 
 void position_controller_update(struct position_controller *ctrl, struct mec_vehicle_position *pos,
@@ -40,9 +41,9 @@ void position_controller_update(struct position_controller *ctrl, struct mec_veh
 
 	error.north = ctrl->position_sp.north - pos->north;
 	error.east = ctrl->position_sp.north - pos->east;
-	error.down = ctrl->position_sp.down - pos->down;
+	error.depth = ctrl->position_sp.depth - pos->depth;
 
 	output->north_m_s = pid_calculate(&ctrl->pid[0], error.north, dt);
 	output->east_m_s = pid_calculate(&ctrl->pid[1], error.east, dt);
-	output->down_m_s = pid_calculate(&ctrl->pid[2], error.down, dt);
+	output->down_m_s = pid_calculate(&ctrl->pid[2], error.depth, dt);
 }

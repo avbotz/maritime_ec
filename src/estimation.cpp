@@ -8,14 +8,17 @@ void mec_vehicle_position_init(struct mec_vehicle_position *pos)
 	pos->north = 0;
 	pos->east = 0;
 	pos->down = 0;
+	pos->depth = 0;
 }
 
-void mec_vehicle_position_update(struct mec_vehicle_position *pos,
-		struct mec_vehicle_dvl_data *vel, float dt)
+void mec_vehicle_position_update(struct mec_vehicle_velocity *vel,
+        float depth,
+        struct mec_vehicle_position *pos, float dt)
 {
 	pos->north += vel->north_m_s * dt;
 	pos->east += vel->east_m_s * dt;
+	pos->down += vel->down_m_s * dt;
 
 	/* TODO filter the rangefinder data instead of just setting it */
-	pos->down = vel->down;
+	pos->depth = depth;
 }

@@ -7,18 +7,13 @@ struct mec_vehicle_position {
 	float north;
 	float east;
 	float down;
+    float depth;
 };
 
 struct mec_vehicle_velocity {
 	float north_m_s;
 	float east_m_s;
 	float down_m_s;
-};
-
-struct mec_vehicle_dvl_data {
-	float north_m_s;
-	float east_m_s;
-	float down; /* downwards is a range finder */
 };
 
 struct mec_vehicle_attitude {
@@ -34,7 +29,8 @@ struct mec_vehicle_angvel {
 };
 
 void mec_vehicle_position_init(struct mec_vehicle_position *pos);
-void mec_vehicle_position_update(struct mec_vehicle_position *pos,
-		struct mec_vehicle_dvl_data *vel, float dt);
+void mec_vehicle_position_update(struct mec_vehicle_velocity *vel,
+        float depth,
+        struct mec_vehicle_position *pos, float dt);
 
 #endif /* _MARITIME_EC_ESTIMATION_H */
