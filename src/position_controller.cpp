@@ -40,7 +40,7 @@ void position_controller_update(struct position_controller *ctrl, struct mec_veh
 	struct mec_vehicle_position error;
 
 	error.north = ctrl->position_sp.north - pos->north;
-	error.east = ctrl->position_sp.north - pos->east;
+	error.east = ctrl->position_sp.east - pos->east;
 	error.depth = ctrl->position_sp.depth - pos->depth;
 
 	output->north_m_s = pid_calculate(&ctrl->pid[0], error.north, dt);
