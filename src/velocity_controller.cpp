@@ -20,23 +20,23 @@ void velocity_controller_init(struct velocity_controller *ctrl)
 }
 
 void velocity_controller_update_sp(struct velocity_controller *ctrl,
-		struct mec_vehicle_velocity *vel_sp)
+		struct mec_vehicle_velocity_body *vel_sp)
 {
-	ctrl->velocity_sp.north_m_s = vel_sp->north_m_s;
-	ctrl->velocity_sp.east_m_s = vel_sp->east_m_s;
+	ctrl->velocity_sp.forward_m_s = vel_sp->forward_m_s;
+	ctrl->velocity_sp.right_m_s = vel_sp->right_m_s;
 	ctrl->velocity_sp.down_m_s = vel_sp->down_m_s;
 }
 
-void velocity_controller_update(struct velocity_controller *ctrl, struct mec_vehicle_velocity *vel,
+void velocity_controller_update(struct velocity_controller *ctrl, struct mec_vehicle_velocity_body *vel,
 		struct mec_force_setpoint *output, float dt)
 {
-	struct mec_vehicle_velocity error;
+	struct mec_vehicle_velocity_body error;
 
-	error.north_m_s = ctrl->velocity_sp.north_m_s - vel->north_m_s;
-	error.east_m_s = ctrl->velocity_sp.east_m_s - vel->east_m_s;
+	error.forward_m_s = ctrl->velocity_sp.forward_m_s - vel->forward_m_s;
+	error.right_m_s = ctrl->velocity_sp.right_m_s - vel->right_m_s;
 	error.down_m_s = ctrl->velocity_sp.down_m_s - vel->down_m_s;
 
-	output->north = pid_calculate(&ctrl->pid[0], error.north_m_s, dt);
-	output->east = pid_calculate(&ctrl->pid[1], error.east_m_s, dt);
+	output->forward = pid_calculate(&ctrl->pid[0], error.forward_m_s, dt);
+	output->right = pid_calculate(&ctrl->pid[1], error.right_m_s, dt);
 	output->down = pid_calculate(&ctrl->pid[2], error.down_m_s, dt);
 }

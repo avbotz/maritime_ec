@@ -1,5 +1,5 @@
 #include <matrix/math.hpp>
-
+#include <mec/util.h>
 #include <mec/estimation.h>
 
 void mec_vehicle_position_init(struct mec_vehicle_position *pos)
@@ -21,4 +21,14 @@ void mec_vehicle_position_update(struct mec_vehicle_velocity *vel,
 
 	/* TODO filter the rangefinder data instead of just setting it */
 	pos->depth = depth;
+}
+
+void mec_vehicle_position_update(struct mec_vehicle_velocity_body *vel,
+        float depth,
+        struct mec_vehicle_position *pos,
+        struct mec_vehicle_attitude *att, float dt)
+{
+    mec_vehicle_velocity rectified_velocity;
+    velocity_body_to_ned(vel, &rectified_velocity, att);
+    mec_vehicle_position_update(&rectified_velocity, depth, pos, dt);
 }

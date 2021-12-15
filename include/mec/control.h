@@ -10,8 +10,8 @@ using namespace matrix;
 
 /* NED frame */
 struct mec_force_setpoint {
-	float north;
-	float east;
+	float forward;
+	float right;
 	float down;
 };
 
@@ -38,7 +38,7 @@ struct angvel_controller {
 struct velocity_controller {
 	struct pid_controller pid[3];
 
-	struct mec_vehicle_velocity velocity_sp;
+	struct mec_vehicle_velocity_body velocity_sp;
 };
 
 
@@ -80,8 +80,8 @@ void position_controller_update(struct position_controller *ctrl, struct mec_veh
 		struct mec_vehicle_velocity *output, float dt);
 
 void velocity_controller_init(struct velocity_controller *ctrl);
-void velocity_controller_update_sp(struct velocity_controller *ctrl, struct mec_vehicle_velocity *vel_sp);
-void velocity_controller_update(struct velocity_controller *ctrl, struct mec_vehicle_velocity *att,
+void velocity_controller_update_sp(struct velocity_controller *ctrl, struct mec_vehicle_velocity_body *vel_sp);
+void velocity_controller_update(struct velocity_controller *ctrl, struct mec_vehicle_velocity_body *att,
 		struct mec_force_setpoint *output, float dt);
 
 #endif /* _MARITIME_EC_CONTROL_H */
