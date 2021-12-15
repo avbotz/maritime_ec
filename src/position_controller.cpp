@@ -24,6 +24,8 @@ void position_controller_init(struct position_controller *ctrl)
 	pid_set_gains(&ctrl->pid[0], 1.2, 0.0, 0.0);
 	pid_set_gains(&ctrl->pid[1], 1.2, 0.0, 0.0);
 	pid_set_gains(&ctrl->pid[2], 1.2, 0.0, 0.0);
+
+    ctrl->use_floor_depth = true;
 }
 
 void position_controller_update_sp(struct position_controller *ctrl, struct mec_vehicle_position *pos_sp)
@@ -41,9 +43,19 @@ void position_controller_update(struct position_controller *ctrl, struct mec_veh
 
 	error.north = ctrl->position_sp.north - pos->north;
 	error.east = ctrl->position_sp.east - pos->east;
+	error.down = ctrl->position_sp.down - pos->down;
 	error.depth = ctrl->position_sp.depth - pos->depth;
+
+    std::cout << ctrl->position_sp.down << " " << pos->down << std::endl;
 
 	output->north_m_s = pid_calculate(&ctrl->pid[0], error.north, dt);
 	output->east_m_s = pid_calculate(&ctrl->pid[1], error.east, dt);
-	output->down_m_s = pid_calculate(&ctrl->pid[2], error.depth, dt);
+
+    if (ctrl->use_floor_depth)
+    {
+	    output->down_m_s = pid_calculate(&ctrl->pid[2], error.depth, dt);
+    } else
+    {
+	    output->down_m_s = pid_calculate(&ctrl->pid[2], error.down, dt);
+    }
 }
