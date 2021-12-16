@@ -46,8 +46,6 @@ void position_controller_update(struct position_controller *ctrl, struct mec_veh
 	error.down = ctrl->position_sp.down - pos->down;
 	error.depth = ctrl->position_sp.depth - pos->depth;
 
-    std::cout << ctrl->position_sp.down << " " << pos->down << std::endl;
-
 	output->north_m_s = pid_calculate(&ctrl->pid[0], error.north, dt);
 	output->east_m_s = pid_calculate(&ctrl->pid[1], error.east, dt);
 
