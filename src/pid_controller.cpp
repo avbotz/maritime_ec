@@ -53,7 +53,7 @@ float pid_calculate(struct pid_controller *pid, float error, float dt)
 	pid->prev_error = error;
 
 	/* add proportional term and scale entire output */
-	float output = normalize(pid->kp * (error + integral_term - derivative_term), -1, 1);
+	float output = pid->kp * (error + integral_term - derivative_term);
 
     return output;
 }

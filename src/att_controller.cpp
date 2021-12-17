@@ -12,6 +12,7 @@
 #include <iostream>
 #include <mec/control.h>
 #include <mec/pid_controller.h>
+#include <mec/util.h>
 
 /*
  * the attitude controller operates as a proportional only controller
@@ -42,7 +43,7 @@ void att_controller_update(struct att_controller *ctrl, struct mec_vehicle_attit
 	error.pitch = ctrl->att_sp.pitch - att->pitch;
 	error.yaw = ctrl->att_sp.yaw - att->yaw;
 
-	output->roll_rad_s = pid_calculate(&ctrl->pid[0], error.roll, dt);
-	output->pitch_rad_s = pid_calculate(&ctrl->pid[1], error.pitch, dt);
-	output->yaw_rad_s = pid_calculate(&ctrl->pid[2], error.yaw, dt);
+	output->roll_rad_s = normalize(pid_calculate(&ctrl->pid[0], error.roll, dt), -1, 1);
+	output->pitch_rad_s = normalize(pid_calculate(&ctrl->pid[1], error.pitch, dt), -1, 1);
+	output->yaw_rad_s = normalize(pid_calculate(&ctrl->pid[2], error.yaw, dt), -1, 1);
 }

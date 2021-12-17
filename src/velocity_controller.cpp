@@ -14,9 +14,9 @@
 
 void velocity_controller_init(struct velocity_controller *ctrl)
 {
-	pid_set_gains(&ctrl->pid[0], 5.2, 0.9, 0.004);
-	pid_set_gains(&ctrl->pid[1], 5.2, 0.9, 0.004);
-	pid_set_gains(&ctrl->pid[2], 5.2, 0.9, 0.004);
+	pid_set_gains(&ctrl->pid[0], 5.2, 0.9, 0.038);
+	pid_set_gains(&ctrl->pid[1], 5.2, 0.9, 0.038);
+	pid_set_gains(&ctrl->pid[2], 5.2, 0.9, 0.008);
 }
 
 void velocity_controller_update_sp(struct velocity_controller *ctrl,
@@ -36,7 +36,22 @@ void velocity_controller_update(struct velocity_controller *ctrl, struct mec_veh
 	error.right_m_s = ctrl->velocity_sp.right_m_s - vel->right_m_s;
 	error.down_m_s = ctrl->velocity_sp.down_m_s - vel->down_m_s;
 
-	output->forward = pid_calculate(&ctrl->pid[0], error.forward_m_s, dt);
-	output->right = pid_calculate(&ctrl->pid[1], error.right_m_s, dt);
-	output->down = pid_calculate(&ctrl->pid[2], error.down_m_s, dt);
+	output->forward = normalize(pid_calculate(&ctrl->pid[0], error.forward_m_s, dt), -1, 1);
+	output->right = normalize(pid_calculate(&ctrl->pid[1], error.right_m_s, dt), -1, 1);
+	output->down = normalize(pid_calculate(&ctrl->pid[2], error.down_m_s, dt), -1, 1);
+
+    // ARW
+    if (output->forward >= 1 || output->forward <= -1)
+    {
+        ctrl->pid[0].integral -= error.forward_m_s * dt;
+    }
+    if (output->right >= 1 || output->right <= -1)
+    {
+        ctrl->pid[1].integral -= error.right_m_s * dt;
+    }
+    if (output->down >= 1 || output->down <= -1)
+    {
+        ctrl->pid[2].integral -= error.down_m_s * dt;
+    }
+
 }
