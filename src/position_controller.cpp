@@ -47,8 +47,8 @@ void position_controller_update(struct position_controller *ctrl, struct mec_veh
 	error.down = ctrl->position_sp.down - pos->down;
 	error.depth = ctrl->position_sp.depth - pos->depth;
 
-	output->north_m_s = normalize(pid_calculate(&ctrl->pid[0], error.north, dt), -5, 5);
-	output->east_m_s = normalize(pid_calculate(&ctrl->pid[1], error.east, dt), -5, 5);
+	output->north_m_s = normalize(pid_calculate(&ctrl->pid[0], error.north, dt), -1, 1);
+	output->east_m_s = normalize(pid_calculate(&ctrl->pid[1], error.east, dt), -1, 1);
 
     if (ctrl->use_floor_depth)
     {
