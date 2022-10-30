@@ -49,14 +49,26 @@ struct position_controller {
     bool use_floor_depth;
 };
 
+/*
+ * Rows are each degree of freedom:
+ *  x, y, z, roll, pitch, yaw.
+ * Columns are thrusters:
+ *  vertical front left, vertical front right,
+ *  vertical back left, vertical back right,
+ *  horizontal front left, horizontal front right,
+ *  horizontal back left, horizontal back right.
+ * -1 = thruster pushes you in the negative on that axis
+ *  0 = thruster cannot affect this axis
+ *  1 = thruster pushes you in the positive on that axis
+ */
 static float nemo_mix_data[6][8] =
 {
-	{ 0,  0,  0,  0,  1,  -1,  -1,  1, },
-	{ 0,  0,  0,  0,  1,  1,  1,  1, },
-	{ 1,  -1,  -1,  1,  0,  0,  0,  0, },
-	{ 1,   1,  -1, -1,  0,  0,  0,  0, },
-	{ -1,  1,  -1,  1,  0,  0,  0,  0, },
-	{ 0,  0,  0,  0,  -1,  -1,  1,  1, },
+	{ 0.00, 0.00,  0.00, 0.00, 1.00, -1.0, -1.0, 1.00, },
+	{ 0.00, 0.00,  0.00, 0.00, 1.00, 1.00, 1.00, 1.00, },
+	{ 1.00, -1.0,  -1.0, 1.00, 0.00, 0.00, 0.00, 0.00, },
+	{ -1.0, -1.0,  1.00, 1.00, 0.00, 0.00, 0.00, 0.00, },
+	{ -1.0, 1.00,  -1.0, 1.00, 0.00, 0.00, 0.00, 0.00, },
+	{ 0.00, 0.00,  0.00, 0.00, 1.00, 1.00, -1.0, -1.0, },
 };
 
 static Matrix<float, 6, 8> nemo_mix_mat(nemo_mix_data);
