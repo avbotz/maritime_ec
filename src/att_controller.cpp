@@ -39,11 +39,11 @@ void att_controller_update(struct att_controller *ctrl, struct mec_vehicle_attit
 {
 	struct mec_vehicle_attitude error;
 
-	error.roll = ctrl->att_sp.roll - att->roll;
-	error.pitch = ctrl->att_sp.pitch - att->pitch;
-	error.yaw = ctrl->att_sp.yaw - att->yaw;
+	error.roll = angle_difference(ctrl->att_sp.roll, att->roll);
+	error.pitch = angle_difference(ctrl->att_sp.pitch, att->pitch);
+	error.yaw = angle_difference(ctrl->att_sp.yaw, att->yaw);
 
-	output->roll_rad_s = normalize(pid_calculate(&ctrl->pid[0], error.roll, dt), -1, 1);
-	output->pitch_rad_s = normalize(pid_calculate(&ctrl->pid[1], error.pitch, dt), -1, 1);
-	output->yaw_rad_s = normalize(pid_calculate(&ctrl->pid[2], error.yaw, dt), -1, 1);
+	output->roll_rad_s = normalize(pid_calculate(&ctrl->pid[0], error.roll, dt), -2, 2);
+	output->pitch_rad_s = normalize(pid_calculate(&ctrl->pid[1], error.pitch, dt), -2, 2);
+	output->yaw_rad_s = normalize(pid_calculate(&ctrl->pid[2], error.yaw, dt), -2, 2);
 }

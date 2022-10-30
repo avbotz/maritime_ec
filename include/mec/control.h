@@ -71,6 +71,16 @@ static float nemo_mix_data[6][8] =
 	{ 0.00, 0.00,  0.00, 0.00, 1.00, 1.00, -1.0, -1.0, },
 };
 
+// static float nemo_mix_data[6][8] =
+// {
+// 	{ 0,  0,  0,  0,  1,  -1,  -1,  1, },
+// 	{ 0,  0,  0,  0,  1,  1,  1,  1, },
+// 	{ 1,  -1,  -1,  1,  0,  0,  0,  0, },
+// 	{ -1,   -1,  1, 1,  0,  0,  0,  0, },
+// 	{ -1,  1,  -1,  1,  0,  0,  0,  0, },
+// 	{ 0,  0,  0,  0,  -1,  -1,  1,  1, },
+// };
+
 static Matrix<float, 6, 8> nemo_mix_mat(nemo_mix_data);
 
 void mec_mix(struct mec_force_setpoint *force_sp, struct mec_torque_setpoint *torque_sp,

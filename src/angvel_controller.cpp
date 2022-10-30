@@ -40,16 +40,17 @@ void angvel_controller_update(struct angvel_controller *ctrl, struct mec_vehicle
 	output->pitch = normalize(pid_calculate(&ctrl->pid[1], error.pitch_rad_s, dt), -1, 1);
 	output->yaw = normalize(pid_calculate(&ctrl->pid[2], error.yaw_rad_s, dt), -1, 1);
 
-    // ARW
-    if (output->roll >= 1 || output->roll <= -1)
+    // Anti-reset windup
+    float limit = 1;
+    if (output->roll >= limit || output->roll <= limit)
     {
         ctrl->pid[0].integral -= error.roll_rad_s * dt;
     }
-    if (output->pitch >= 1 || output->pitch <= -1)
+    if (output->pitch >= limit || output->pitch <= limit)
     {
         ctrl->pid[1].integral -= error.pitch_rad_s * dt;
     }
-    if (output->yaw >= 1 || output->yaw <= -1)
+    if (output->yaw >= limit || output->yaw <= limit)
     {
         ctrl->pid[2].integral -= error.yaw_rad_s * dt;
     }

@@ -9,4 +9,6 @@ void velocity_body_to_ned(struct mec_vehicle_velocity_body *body,
 void velocity_ned_to_body(struct mec_vehicle_velocity_body *body,
         struct mec_vehicle_velocity *ned, struct mec_vehicle_attitude *att);
 
+float angle_difference(float a1, float a2);
+
 #endif

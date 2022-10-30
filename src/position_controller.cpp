@@ -47,14 +47,16 @@ void position_controller_update(struct position_controller *ctrl, struct mec_veh
 	error.down = ctrl->position_sp.down - pos->down;
 	error.depth = ctrl->position_sp.depth - pos->depth;
 
-	output->north_m_s = normalize(pid_calculate(&ctrl->pid[0], error.north, dt), -1, 1);
-	output->east_m_s = normalize(pid_calculate(&ctrl->pid[1], error.east, dt), -1, 1);
+	float max_speed = 0.7;
+
+	output->north_m_s = normalize(pid_calculate(&ctrl->pid[0], error.north, dt), -max_speed, max_speed);
+	output->east_m_s = normalize(pid_calculate(&ctrl->pid[1], error.east, dt), -max_speed, max_speed);
 
     if (ctrl->use_floor_depth)
     {
-	    output->down_m_s = normalize(pid_calculate(&ctrl->pid[2], error.depth, dt), -1, 1);
+	    output->down_m_s = normalize(pid_calculate(&ctrl->pid[2], error.depth, dt), -max_speed, max_speed);
     } else
     {
-	    output->down_m_s = normalize(pid_calculate(&ctrl->pid[2], error.down, dt), -1, 1);
+	    output->down_m_s = normalize(pid_calculate(&ctrl->pid[2], error.down, dt), -max_speed, max_speed);
     }
 }
