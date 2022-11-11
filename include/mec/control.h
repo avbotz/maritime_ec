@@ -46,7 +46,7 @@ struct position_controller {
 	struct pid_controller pid[3];
 
 	struct mec_vehicle_position position_sp;
-    bool use_floor_depth;
+    bool use_floor_altitude;
 };
 
 /*
