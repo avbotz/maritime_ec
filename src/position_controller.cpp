@@ -4,7 +4,7 @@
  * Implements a P controller to correct error in vehicle attitude
  * The outputs of this controller (angular velocity commands) are fed
  * into the angular rate controller, which in turn commands torque
- * setpoints which are fed through thcd mare mixer
+ * setpoints which are fed through the mare mixer
  *
  * @author Kalyan Sriram, Vincent Wang
  */
