@@ -4,7 +4,7 @@
  * Implements a P controller to correct error in vehicle attitude
  * The outputs of this controller (angular velocity commands) are fed
  * into the angular rate controller, which in turn commands torque
- * setpoints which are fed through the mixer
+ * setpoints which are fed through thcd mare mixer
  *
  * @author Kalyan Sriram, Vincent Wang
  */
@@ -54,7 +54,7 @@ void position_controller_update(struct position_controller *ctrl, struct mec_veh
 
     if (ctrl->use_floor_altitude)
     {
-	    output->down_m_s = normalize(pid_calculate(&ctrl->pid[2], error.altitude, dt), -max_speed, max_speed);
+	    output->down_m_s = -(normalize(pid_calculate(&ctrl->pid[2], error.altitude, dt), -max_speed, max_speed));
     } else
     {
 	    output->down_m_s = normalize(pid_calculate(&ctrl->pid[2], error.down, dt), -max_speed, max_speed);
