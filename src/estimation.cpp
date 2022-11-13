@@ -8,11 +8,11 @@ void mec_vehicle_position_init(struct mec_vehicle_position *pos)
 	pos->north = 0;
 	pos->east = 0;
 	pos->down = 0;
-	pos->depth = 0;
+	pos->altitude = 0;
 }
 
 void mec_vehicle_position_update(struct mec_vehicle_velocity *vel,
-        float depth,
+        float altitude,
         struct mec_vehicle_position *pos, float dt)
 {
 	// Down value is from pressure sensor, not DVL
@@ -20,15 +20,15 @@ void mec_vehicle_position_update(struct mec_vehicle_velocity *vel,
 	pos->east += vel->east_m_s * dt;
 
 	/* TODO filter the rangefinder data instead of just setting it */
-	pos->depth = depth;
+	pos->altitude = altitude;
 }
 
 void mec_vehicle_position_update(struct mec_vehicle_velocity_body *vel,
-        float depth,
+        float altitude,
         struct mec_vehicle_position *pos,
         struct mec_vehicle_attitude *att, float dt)
 {
     mec_vehicle_velocity rectified_velocity;
     velocity_body_to_ned(vel, &rectified_velocity, att);
-    mec_vehicle_position_update(&rectified_velocity, depth, pos, dt);
+    mec_vehicle_position_update(&rectified_velocity, altitude, pos, dt);
 }

@@ -1,0 +1,11 @@
+CMakeFiles/
+CMakeCache.txt
+CMakeFiles/
+Makefile
+cmake_install.cmake
+include/PX4-Matrix/
+src/CMakeFiles/
+src/Makefile
+src/cmake_install.cmake
+src/libmaritime_ec.a
+

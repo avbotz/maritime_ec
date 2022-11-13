@@ -7,14 +7,14 @@ struct mec_vehicle_position {
 	float north;
 	float east;
 	float down;
-    float depth;
+    float altitude;
 };
 
 struct mec_vehicle_position_body {
 	float forward;
 	float right;
 	float down;
-    float depth;
+    float altitude;
 };
 
 struct mec_vehicle_velocity {
@@ -43,10 +43,10 @@ struct mec_vehicle_angvel {
 
 void mec_vehicle_position_init(struct mec_vehicle_position *pos);
 void mec_vehicle_position_update(struct mec_vehicle_velocity *vel,
-        float depth,
+        float altitude,
         struct mec_vehicle_position *pos, float dt);
 void mec_vehicle_position_update(struct mec_vehicle_velocity_body *vel,
-        float depth,
+        float altitude,
         struct mec_vehicle_position *pos,
         struct mec_vehicle_attitude *att, float dt);
 
