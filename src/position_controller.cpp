@@ -22,9 +22,9 @@
 
 void position_controller_init(struct position_controller *ctrl)
 {
-	pid_set_gains(&ctrl->pid[0], 1.2, 0.0, 0.0);
-	pid_set_gains(&ctrl->pid[1], 1.2, 0.0, 0.0);
-	pid_set_gains(&ctrl->pid[2], 1.2, 0.0, 0.0);
+	pid_set_gains(&ctrl->pid[0], 0.6, 0.0, 0.0);
+	pid_set_gains(&ctrl->pid[1], 0.6, 0.0, 0.0);
+	pid_set_gains(&ctrl->pid[2], 0.6, 0.0, 0.0);
 
     ctrl->use_floor_altitude = true;
 }
@@ -38,25 +38,46 @@ void position_controller_update_sp(struct position_controller *ctrl, struct mec_
 }
 
 void position_controller_update(struct position_controller *ctrl, struct mec_vehicle_position *pos,
-		struct mec_vehicle_velocity *output, float dt)
+		struct mec_vehicle_attitude *att, struct mec_vehicle_velocity_body *output, float dt)
 {
-	struct mec_vehicle_position error;
+	struct mec_vehicle_position ned_error;
 
-	error.north = ctrl->position_sp.north - pos->north;
-	error.east = ctrl->position_sp.east - pos->east;
-	error.down = ctrl->position_sp.down - pos->down;
-	error.altitude = ctrl->position_sp.altitude - pos->altitude;
+	ned_error.north = ctrl->position_sp.north - pos->north;
+	ned_error.east = ctrl->position_sp.east - pos->east;
+	if (ctrl->use_floor_altitude)
+		ned_error.down = pos->altitude - ctrl->position_sp.altitude;
+	else
+		ned_error.down = ctrl->position_sp.down - pos->down;
+
+	struct mec_vehicle_position_body error;
+	position_ned_to_body(
+		&error, 
+		&ned_error, 
+		att);
 
 	float max_speed = 0.7;
 
-	output->north_m_s = normalize(pid_calculate(&ctrl->pid[0], error.north, dt), -max_speed, max_speed);
-	output->east_m_s = normalize(pid_calculate(&ctrl->pid[1], error.east, dt), -max_speed, max_speed);
+	output->forward_m_s = normalize(
+		pid_calculate(
+			&ctrl->pid[0], 
+			error.forward, 
+			dt), 
+		-max_speed, 
+		max_speed);
 
-    if (ctrl->use_floor_altitude)
-    {
-	    output->down_m_s = -(normalize(pid_calculate(&ctrl->pid[2], error.altitude, dt), -max_speed, max_speed));
-    } else
-    {
-	    output->down_m_s = normalize(pid_calculate(&ctrl->pid[2], error.down, dt), -max_speed, max_speed);
-    }
+	output->right_m_s = normalize(
+		pid_calculate(
+			&ctrl->pid[1], 
+			error.right, 
+			dt), 
+		-max_speed, 
+		max_speed);
+
+	output->down_m_s = normalize(
+		pid_calculate(
+			&ctrl->pid[2], 
+			error.down, 
+			dt), 
+		-max_speed, 
+		max_speed);
 }

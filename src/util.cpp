@@ -68,7 +68,9 @@ void offsets_to_frame(float input[3], float angles[3], float output[3])
 
 void transform_frame(float frame1[3], float frame2[3], float angle[3])
 {
-    /* Rotate one frame to another. Angles are (roll, pitch, yaw). */
+    /* Rotate one frame to another. Angles are (roll, pitch, yaw). 
+     * Not used for now, seems to not work in the sim 
+     */
     float xrot_arr[3][3] =
     {
         { 1, 0, 0 },
@@ -105,6 +107,19 @@ void transform_frame(float frame1[3], float frame2[3], float angle[3])
     frame2[0] = vec_2(0);
     frame2[1] = vec_2(1);
     frame2[2] = vec_2(2);
+}
+
+void position_ned_to_body(struct mec_vehicle_position_body *body,
+        struct mec_vehicle_position *ned, struct mec_vehicle_attitude *att)
+{
+    float ned_positions[] = { ned->north, ned->east, ned->down };
+    float angle[] = { -att->roll, -att->pitch, -att->yaw };
+    float body_positions[3];
+
+    offsets_to_frame(ned_positions, angle, body_positions);
+    body->forward = body_positions[0];
+    body->right = body_positions[1];
+    body->down = body_positions[2];
 }
 
 void velocity_ned_to_body(struct mec_vehicle_velocity_body *body,

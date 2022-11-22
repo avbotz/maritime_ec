@@ -90,7 +90,7 @@ void angvel_controller_update(struct angvel_controller *ctrl, struct mec_vehicle
 void position_controller_init(struct position_controller *ctrl);
 void position_controller_update_sp(struct position_controller *ctrl, struct mec_vehicle_position *pos_sp);
 void position_controller_update(struct position_controller *ctrl, struct mec_vehicle_position *pos,
-		struct mec_vehicle_velocity *output, float dt);
+		struct mec_vehicle_attitude *att, struct mec_vehicle_velocity_body *output, float dt);
 
 void velocity_controller_init(struct velocity_controller *ctrl);
 void velocity_controller_update_sp(struct velocity_controller *ctrl, struct mec_vehicle_velocity_body *vel_sp);
