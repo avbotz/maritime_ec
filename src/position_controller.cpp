@@ -24,7 +24,7 @@ void position_controller_init(struct position_controller *ctrl)
 {
 	pid_set_gains(&ctrl->pid[0], 0.6, 0.0, 0.0);
 	pid_set_gains(&ctrl->pid[1], 0.6, 0.0, 0.0);
-	pid_set_gains(&ctrl->pid[2], 0.6, 0.0, 0.0);
+	pid_set_gains(&ctrl->pid[2], 0.3, 0.0, 0.0);
 
     ctrl->use_floor_altitude = true;
 }
