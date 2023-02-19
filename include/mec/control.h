@@ -74,7 +74,7 @@ static float nemo_mix_data[6][8] =
 static Matrix<float, 6, 8> nemo_mix_mat(nemo_mix_data);
 
 void mec_mix(struct mec_force_setpoint *force_sp, struct mec_torque_setpoint *torque_sp,
-		Matrix<float, 6, 8> &mix, float *thruster_outputs);
+		Matrix<float, 6, 8> &mix, float power, float *thruster_outputs);
 
 void att_controller_init(struct att_controller *ctrl);
 void att_controller_update_sp(struct att_controller *ctrl, struct mec_vehicle_attitude *att_sp);

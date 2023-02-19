@@ -14,9 +14,9 @@
 
 void angvel_controller_init(struct angvel_controller *ctrl)
 {
-	pid_set_gains(&ctrl->pid[0], 5.4, 0.01, 0.012);
+	pid_set_gains(&ctrl->pid[0], 2.7, 0.0, 0.012);
 	pid_set_gains(&ctrl->pid[1], 2.7, 0.0, 0.012);
-	pid_set_gains(&ctrl->pid[2], 2.7, 0.0, 0.012);
+	pid_set_gains(&ctrl->pid[2], 5.4, 0.01, 0.012);
 }
 
 void angvel_controller_update_sp(struct angvel_controller *ctrl,

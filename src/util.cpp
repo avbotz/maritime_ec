@@ -148,6 +148,17 @@ void velocity_body_to_ned(struct mec_vehicle_velocity_body *body,
     ned->down_m_s = ned_velocities[2];
 }
 
+float angle_add(float a1, float add)
+{
+    float temp = a1 + add;
+    if (temp > M_PI)
+        return temp - 2*M_PI;
+    else if (temp < -M_PI)
+        return temp + 2*M_PI;
+
+    return temp;
+}
+
 float angle_difference(float a1, float a2)
 {
     // For [-180, 180].

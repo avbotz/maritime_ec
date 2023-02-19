@@ -17,7 +17,7 @@
 #define NUM_THRUSTERS 8 /* TODO: find a better place for this */
 
 void mec_mix(struct mec_force_setpoint *force_sp, struct mec_torque_setpoint *torque_sp,
-		Matrix<float, NUM_DOF, NUM_THRUSTERS> &mix, float *thruster_outputs)
+		Matrix<float, NUM_DOF, NUM_THRUSTERS> &mix, float power, float *thruster_outputs)
 {
 	Vector<float, NUM_DOF> sp_vec;
 	Vector<float, NUM_THRUSTERS> out_vec;
@@ -33,6 +33,6 @@ void mec_mix(struct mec_force_setpoint *force_sp, struct mec_torque_setpoint *to
 	out_vec = mix.T() * sp_vec;
 
 	for (int i = 0;i < NUM_THRUSTERS;i++) {
-		thruster_outputs[i] = out_vec(i);
+		thruster_outputs[i] = out_vec(i) * power;
 	}
 }
