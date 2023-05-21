@@ -3,6 +3,8 @@
 
 double normalize(double value, double min, double max);
 
+void offsets_to_frame(float *input, float *angles, float *output);
+
 void position_ned_to_body(struct mec_vehicle_position_body *body,
         struct mec_vehicle_position *ned, struct mec_vehicle_attitude *att);
 

@@ -31,7 +31,7 @@ double normalize(double value, double min, double max)
     return value;
 }
 
-void offsets_to_frame(float input[3], float angles[3], float output[3])
+void offsets_to_frame(float *input, float *angles, float *output)
 {
     /* 
      * Input offsets at those angles from your frame,
