@@ -9,7 +9,6 @@
  * @author Kalyan Sriram, Vincent Wang
  */
 
-#include <iostream>
 #include <mec/control.h>
 #include <mec/util.h>
 #include <mec/pid_controller.h>

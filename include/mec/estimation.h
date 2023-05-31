@@ -1,8 +1,6 @@
 #ifndef _MARITIME_EC_ESTIMATION_H
 #define _MARITIME_EC_ESTIMATION_H
 
-#include <matrix/math.hpp>
-
 struct mec_vehicle_position {
 	float north;
 	float east;
@@ -42,9 +40,6 @@ struct mec_vehicle_angvel {
 };
 
 void mec_vehicle_position_init(struct mec_vehicle_position *pos);
-void mec_vehicle_position_update(struct mec_vehicle_velocity *vel,
-        float altitude,
-        struct mec_vehicle_position *pos, float dt);
 void mec_vehicle_position_update(struct mec_vehicle_velocity_body *vel,
         float altitude,
         struct mec_vehicle_position *pos,

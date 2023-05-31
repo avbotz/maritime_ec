@@ -7,7 +7,6 @@
  * @author Kalyan Sriram
  */
 
-#include <iostream>
 #include <mec/pid_controller.h>
 #include <mec/util.h>
 

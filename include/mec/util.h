@@ -1,6 +1,12 @@
 #ifndef _MARITIME_EC_UTIL_H
 #define _MARITIME_EC_UTIL_H
 
+#ifndef M_PI
+    #define M_PI 3.14159265358979323846
+#endif
+
+#include <mec/estimation.h>
+
 double normalize(double value, double min, double max);
 
 void offsets_to_frame(float *input, float *angles, float *output);

@@ -1,3 +1,0 @@
-[submodule "include/matrix"]
-	path = include/matrix
-	url = https://github.com/PX4/PX4-Matrix

@@ -7,9 +7,7 @@
  * @author Vincent Wang
  */
 
-#include <matrix/math.hpp>
 #include <math.h>
-#include <iostream>
 #include <mec/util.h>
 #include <mec/estimation.h>
 #include <mec/control.h>
@@ -36,18 +34,18 @@ void offsets_to_frame(float *input, float *angles, float *output)
     /* 
      * Input offsets at those angles from your frame,
      * Converts those offsets to your frame's offsets.
-     * Input = x, y, z offsets
-     * Angles = roll, pitch, yaw from your frame
-     * Output = your frame's x, y, z offsets
+     * Input = x, y, z relative offsets
+     * Angles = roll, pitch, yaw from your frame the input is applied at
+     * Output = your frame's x, y, z absolute offsets
      */
 
     // Pre-compute trig functions.
-    float sphi = std::sin(angles[0]);
-    float sthe = std::sin(angles[1]);
-    float spsi = std::sin(angles[2]);
-    float cphi = std::cos(angles[0]);
-    float cthe = std::cos(angles[1]);
-    float cpsi = std::cos(angles[2]);
+    float sphi = sin(angles[0]);
+    float sthe = sin(angles[1]);
+    float spsi = sin(angles[2]);
+    float cphi = cos(angles[0]);
+    float cthe = cos(angles[1]);
+    float cpsi = cos(angles[2]);
 
     // Calculate rotation matrix for Euler transformation.
     float r11 =  cthe*cpsi;
@@ -64,49 +62,6 @@ void offsets_to_frame(float *input, float *angles, float *output)
     output[0] = r11*input[0] + r12*input[1] + r13*input[2];
     output[1] = r21*input[0] + r22*input[1] + r23*input[2];
     output[2] = r31*input[0] + r32*input[1] + r33*input[2];
-}
-
-void transform_frame(float frame1[3], float frame2[3], float angle[3])
-{
-    /* Rotate one frame to another. Angles are (roll, pitch, yaw). 
-     * Not used for now, seems to not work in the sim 
-     */
-    float xrot_arr[3][3] =
-    {
-        { 1, 0, 0 },
-        { 0, cos(angle[1]), -sin(angle[1]) },
-        { 0, sin(angle[1]), cos(angle[1]) }
-    };
-
-    float yrot_arr[3][3] =
-    {
-        { cos(angle[0]), 0, sin(angle[0]) },
-        { 0, 1, 0 },
-        { -sin(angle[0]), 0, cos(angle[0]) }
-    };
-
-    float zrot_arr[3][3] =
-    {
-        { cos(angle[2]), -sin(angle[2]), 0 },
-        { sin(angle[2]), cos(angle[2]), 0 },
-        { 0, 0, 1 }
-    };
-
-    Matrix<float, 3, 3> xrot(xrot_arr);
-    Matrix<float, 3, 3> yrot(yrot_arr);
-    Matrix<float, 3, 3> zrot(zrot_arr);
-
-    Vector<float, 3> vec_1;
-    Vector<float, 3> vec_2;
-
-    vec_1(0) = frame1[0];
-    vec_1(1) = frame1[1];
-    vec_1(2) = frame1[2];
-
-    vec_2 = xrot * yrot * zrot * vec_1;
-    frame2[0] = vec_2(0);
-    frame2[1] = vec_2(1);
-    frame2[2] = vec_2(2);
 }
 
 void position_ned_to_body(struct mec_vehicle_position_body *body,
