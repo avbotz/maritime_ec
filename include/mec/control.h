@@ -5,6 +5,9 @@
 #include <mec/pid_controller.h>
 #include <stdbool.h>
 
+static const int NUM_THRUSTERS = 8;
+static const int NUM_DOF = 6;
+
 /* NED frame */
 struct mec_force_setpoint {
 	float forward;
@@ -62,7 +65,7 @@ struct position_controller {
  *  The propeller config is right left left right right left left right
  *  in the same order as the thrusters in the rows.
  */
-static float sub_mix_data[8][6] =
+static const float sub_mix_data[8][6] =
 {
 	{ 0.00, 0.00, 1.00, -1.0, -1.0, 0.00},
 	{ 0.00, 0.00, -1.0, -1.0, 1.00, 0.00},
