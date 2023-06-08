@@ -54,7 +54,7 @@ void position_controller_update(struct position_controller *ctrl, struct mec_veh
 		&ned_error, 
 		att);
 
-	float max_speed = 0.7;
+	float max_speed = 1.;
 
 	output->forward_m_s = normalize(
 		pid_calculate(
