@@ -25,7 +25,7 @@ void position_controller_init(struct position_controller *ctrl)
 	pid_set_gains(&ctrl->pid[1], 0.6, 0.0, 0.0);
 	pid_set_gains(&ctrl->pid[2], 0.55, 0.0, 0.0);
 
-    ctrl->use_floor_altitude = true;
+    ctrl->use_floor_altitude = false;
 }
 
 void position_controller_update_sp(struct position_controller *ctrl, struct mec_vehicle_position *pos_sp)

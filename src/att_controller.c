@@ -21,7 +21,7 @@
 
 void att_controller_init(struct att_controller *ctrl)
 {
-	pid_set_gains(&ctrl->pid[0], 0.4, 0.0, 0.05);
+	pid_set_gains(&ctrl->pid[0], 1.2, 0.0, 0.0);
 	pid_set_gains(&ctrl->pid[1], 1.2, 0.0, 0.0);
 	pid_set_gains(&ctrl->pid[2], 1.2, 0.0, 0.05);
 }
